@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+  gos-db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - gos-net
+  gos-redis:
+    image: redis:6.0-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - gos-net
+  gos-proxy:
+    image: traefik:v2.9
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+      - "8080:8080"
+    networks:
+      - gos-net
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./config/static.yml:/etc/traefik/traefik.yml:ro"
+      - "./config/dynamic.yml:/etc/traefik/dynamic.yml:ro"
+      - "./certs:/etc/certs:ro"
+networks:
+  gos-net:
+    driver: bridge
+    name: gos-net

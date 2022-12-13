@@ -1,0 +1,26 @@
+global:
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  docker:
+    watch: true
+    exposedByDefault: false
+    network: gos-net
+
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
+
+entryPoints:
+  http:
+    address: ":5000"
+    http:
+      redirections:
+        entryPoint:
+          to: :5001
+  https:
+    address: ":5001"
