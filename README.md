@@ -39,3 +39,7 @@ We use Traefik as the reverse proxy for our local development. This means we can
 This causes some URL differences between Azure hosted services and local services:  
 Azure: `https://my-api.gosolve.org/api/v1/books`  
 Local: `https://localhost:5001/my-api/api/v1/books`
+
+## License
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)  
+goSolve is open-source. We use the [GNU AGPLv3 licensing strategy](LICENSE).
