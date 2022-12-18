@@ -4,19 +4,31 @@ This repository includes all tools and documentation to set you up to develop on
 # Back-end
 ## Requirements
 Make sure you have these tools installed:
+- .NET 6.0 Sdk (Included in [Visual Studio download](https://visualstudio.microsoft.com/vs/community/) or [download manually here](https://dotnet.microsoft.com/en-us/download))
 - [Docker](https://www.docker.com/products/docker-desktop/)
 - Docker Compose (included in Docker for windows and macos, for linux: [see instructions](https://docker-docs.netlify.app/compose/install/#install-compose))
 - [mkcert](https://github.com/FiloSottile/mkcert#installation)
 
 ## First time setup
-### Install development certificate
+### Install development certificates
 To be able to run our services over https, we need to install a development certificate.  
 Execute following commands in this directory (the root of this repository):
 ```shell
 # If it's the firt install of mkcert, run
 mkcert -install
 
-mkcert -cert-file certs/local-cert.pem -key-file certs/local-key.pem "localhost"
+# Generate local development certificate
+mkdir -p ~/.dev/gosolve/certs
+mkcert -cert-file ~/.dev/gosolve/certs/local-cert.pem -key-file ~/.dev/gosolve/certs/local-key.pem "localhost" "host.docker.internal"
+
+# Copy root certificate
+cp -a "$(mkcert -CAROOT)/." ~/.dev/gosolve/certs
+```
+
+## First time API setup
+We need to copy the generated root certificate into our project. Execute the next commands in the project directory:
+```shell
+cp -a ~/.dev/gosolve/certs/. ./certs/
 ```
 
 ## Running an API
