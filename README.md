@@ -12,23 +12,23 @@ Make sure you have these tools installed:
 ## First time setup
 ### Install development certificates
 To be able to run our services over https, we need to install a development certificate.  
-Execute following commands in this directory (the root of this repository):
+Execute following commands in this directory (for Windows, use powershell):
 ```shell
 # If it's the firt install of mkcert, run
 mkcert -install
 
 # Generate local development certificate
-mkdir -p ~/.dev/gosolve/certs
-mkcert -cert-file ~/.dev/gosolve/certs/local-cert.pem -key-file ~/.dev/gosolve/certs/local-key.pem "localhost" "host.docker.internal"
+mkdir -p $HOME/.dev/gosolve/certs
+mkcert -cert-file $HOME/.dev/gosolve/certs/local-cert.pem -key-file $HOME/.dev/gosolve/certs/local-key.pem "localhost" "host.docker.internal"
 
 # Copy root certificate
-cp -a "$(mkcert -CAROOT)/." ~/.dev/gosolve/certs
+cp "$(mkcert -CAROOT)/*" $HOME/.dev/gosolve/certs
 ```
 
 ## First time API setup
 We need to copy the generated root certificate into our project. Execute the next commands in the project directory:
 ```shell
-cp -a ~/.dev/gosolve/certs/. ./certs/
+cp $HOME/.dev/gosolve/certs/* ./certs/
 ```
 
 ## Running an API
