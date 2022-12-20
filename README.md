@@ -26,6 +26,21 @@ mkcert -cert-file $HOME/.dev/gosolve/certs/local-cert.pem -key-file $HOME/.dev/g
 cp "$(mkcert -CAROOT)/*" $HOME/.dev/gosolve/certs
 ```
 
+### Add goSolve nuget package source
+We have our own nuget packages hosted on GitHub which the projects require.  
+
+First you will need to [create a GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for your account.  
+
+To add our nuget source, run the following commands in a terminal **in your goSolve projects directory**
+(this will have effect on all projects in your projects directory):
+```shell
+# Create basic nuget.config file
+dotnet new nugetconfig
+
+# Add goSolve source
+nuget sources add -Name "gosolve-org" -Source "https://nuget.pkg.github.com/gosolve-org/index.json" -username "YOUR-GITHUB-USERNAME" -password "YOUR-GITHUB-TOKEN" -ConfigFile ./nuget.config
+```
+
 ## First time API setup
 We need to copy the generated root certificate into our project. Execute the next commands in the project directory:
 ```shell
@@ -45,7 +60,7 @@ docker-compose up
 | Visual Studio (easiest)   | Run the docker-compose project in Visual Studio. (This also enables debugging features.) |
 | Terminal | Run `docker-compose up` in a terminal in the project directory. |  
 
-:x: On errors, try removing your /obj and /bin folders. 
+> :warning: **On errors:** Try removing your /obj and /bin folders. 
 
 ### Traefik routing (port 5001 (https) | port 5000 (http))
 We use Traefik as the reverse proxy for our local development. This means we can spin up as many services as we want without any port conflicts.  
