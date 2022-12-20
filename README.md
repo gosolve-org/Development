@@ -6,6 +6,7 @@ This repository includes all tools and documentation to set you up to develop on
 Make sure you have these tools installed:
 - .NET 6.0 Sdk (Included in [Visual Studio download](https://visualstudio.microsoft.com/vs/community/) or [download manually here](https://dotnet.microsoft.com/en-us/download))
 - [Docker](https://www.docker.com/products/docker-desktop/)
+  - You can verify the installation by starting Docker and running `docker version` in a terminal.
 - Docker Compose (included in Docker for windows and macos, for linux: [see instructions](https://docker-docs.netlify.app/compose/install/#install-compose))
 - [mkcert](https://github.com/FiloSottile/mkcert#installation)
 
