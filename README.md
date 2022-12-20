@@ -6,29 +6,45 @@ This repository includes all tools and documentation to set you up to develop on
 Make sure you have these tools installed:
 - .NET 6.0 Sdk (Included in [Visual Studio download](https://visualstudio.microsoft.com/vs/community/) or [download manually here](https://dotnet.microsoft.com/en-us/download))
 - [Docker](https://www.docker.com/products/docker-desktop/)
+  - You can verify the installation by starting Docker and running `docker version` in a terminal.
 - Docker Compose (included in Docker for windows and macos, for linux: [see instructions](https://docker-docs.netlify.app/compose/install/#install-compose))
 - [mkcert](https://github.com/FiloSottile/mkcert#installation)
 
 ## First time setup
 ### Install development certificates
 To be able to run our services over https, we need to install a development certificate.  
-Execute following commands in this directory (the root of this repository):
+Execute following commands in this directory (for Windows, use powershell):
 ```shell
 # If it's the firt install of mkcert, run
 mkcert -install
 
 # Generate local development certificate
-mkdir -p ~/.dev/gosolve/certs
-mkcert -cert-file ~/.dev/gosolve/certs/local-cert.pem -key-file ~/.dev/gosolve/certs/local-key.pem "localhost" "host.docker.internal"
+mkdir -p $HOME/.dev/gosolve/certs
+mkcert -cert-file $HOME/.dev/gosolve/certs/local-cert.pem -key-file $HOME/.dev/gosolve/certs/local-key.pem "localhost" "host.docker.internal"
 
 # Copy root certificate
-cp -a "$(mkcert -CAROOT)/." ~/.dev/gosolve/certs
+cp "$(mkcert -CAROOT)/*" $HOME/.dev/gosolve/certs
+```
+
+### Add goSolve nuget package source
+We have our own nuget packages hosted on GitHub which the projects require.  
+
+First you will need to [create a GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for your account.  
+
+To add our nuget source, run the following commands in a terminal **in your goSolve projects directory**
+(this will have effect on all projects in your projects directory):
+```shell
+# Create basic nuget.config file
+dotnet new nugetconfig
+
+# Add goSolve source
+nuget sources add -Name "gosolve-org" -Source "https://nuget.pkg.github.com/gosolve-org/index.json" -username "YOUR-GITHUB-USERNAME" -password "YOUR-GITHUB-TOKEN" -ConfigFile ./nuget.config
 ```
 
 ## First time API setup
 We need to copy the generated root certificate into our project. Execute the next commands in the project directory:
 ```shell
-cp -a ~/.dev/gosolve/certs/. ./certs/
+cp $HOME/.dev/gosolve/certs/* ./certs/
 ```
 
 ## Running an API
@@ -44,7 +60,7 @@ docker-compose up
 | Visual Studio (easiest)   | Run the docker-compose project in Visual Studio. (This also enables debugging features.) |
 | Terminal | Run `docker-compose up` in a terminal in the project directory. |  
 
-:x: On errors, try removing your /obj and /bin folders. 
+> :warning: **On errors:** Try removing your /obj and /bin folders. 
 
 ### Traefik routing (port 5001 (https) | port 5000 (http))
 We use Traefik as the reverse proxy for our local development. This means we can spin up as many services as we want without any port conflicts.  
