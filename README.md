@@ -38,7 +38,7 @@ To add our nuget source, run the following commands in a terminal **in your goSo
 dotnet new nugetconfig
 
 # Add goSolve source
-nuget sources add -Name "gosolve-org" -Source "https://nuget.pkg.github.com/gosolve-org/index.json" -username "YOUR-GITHUB-USERNAME" -password "YOUR-GITHUB-TOKEN" -ConfigFile ./nuget.config
+dotnet nuget add source https://nuget.pkg.github.com/gosolve-org/index.json --name "gosolve-org" --username "YOUR-GITHUB-USERNAME" --password "YOUR-GITHUB-TOKEN" --configfile ./nuget.config --store-password-in-clear-text
 ```
 
 ## First time API setup
